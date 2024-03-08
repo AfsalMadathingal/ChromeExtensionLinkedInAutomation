@@ -1,0 +1,36 @@
+
+  {
+    "manifest_version": 3,
+    "name": "LinkedIn Auto Follow ",
+    "version": "1.0",
+    "description": "Automatically click LinkedIn Follow buttons available on LinkedIn 'Search People' and 'People You May Know' pages.",
+    "permissions": [
+      "activeTab",
+      "scripting",
+        "storage"
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+      },
+    "action": {
+      "default_popup": "autofollow.html",
+      "default_icon": "icon.png"
+    },
+    "background": {
+      "service_worker": "script.js"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+            "https://*.linkedin.com/mynetwork/*"
+          ],
+        "js": ["content.js"]
+      }
+    ],
+    "icons": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
