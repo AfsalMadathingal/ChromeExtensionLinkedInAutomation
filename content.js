@@ -4,31 +4,31 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     var count = 0;
     var maxAttemptsReached = false;
     
-    // Check if extension has already been executed and when
-    chrome.storage.local.get(['extensionExecuted', 'lastExecutionDate'], function(data) {
+    
+    chrome.storage.local.get(['Executed',], function(data) {
       
 
         if (message.action === "startFollow" && startFollowEnabled && !maxAttemptsReached) {
 
             
-            // Function to scroll inside the modal
+           
             function scrollInsideModal() {
                 const modal = document.querySelector('.artdeco-modal__content');
                 if (modal && !maxAttemptsReached) {
-                    modal.scrollTop += 100; // Adjust the value as needed for the scroll distance
+                    modal.scrollTop += 100; 
                 }
             }
 
-            // Function to simulate a click on each button inside the modal after a delay
+            
             function clickButtons() {
                 const modal = document.querySelector('.artdeco-modal__content');
                 if (modal) {
                     const buttons = modal.querySelectorAll('.artdeco-button.artdeco-button--2.artdeco-button--full.artdeco-button--secondary.ember-view.full-width.mt2');
                     buttons.forEach(function(button, index) {
                         setTimeout(function() {
-                            if (!maxAttemptsReached && startFollowEnabled) { // Check if maximum attempts reached and if startFollow is enabled
+                            if (!maxAttemptsReached && startFollowEnabled) { 
                                 count++;
-                                if (count === 40) {
+                                if (data.Executed === 40) {
                                     maxAttemptsReached = true; 
                                     alert('You have reached the maximum number of attempts.Better to stop Now.');
                                     return;
@@ -48,8 +48,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 clickButtons();
             }, 3000);
 
-            // Set flag in storage to indicate extension has been executed and update last execution date
-            chrome.storage.local.set({ 'extensionExecuted': true, 'lastExecutionDate': today });
+           
+            chrome.storage.local.set({ 'Executed': count,  });
         }
     });
 });
