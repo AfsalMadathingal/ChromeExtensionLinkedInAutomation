@@ -1,25 +1,16 @@
-
-// Variable to track if the "startFollow" logic should be executed
 var startFollowEnabled = true;
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     var count = 0;
-    var maxAttemptsReached = false; // Flag to track if maximum attempts reached
+    var maxAttemptsReached = false;
     
     // Check if extension has already been executed and when
     chrome.storage.local.get(['extensionExecuted', 'lastExecutionDate'], function(data) {
-        var today = new Date().toLocaleDateString();
-        var lastExecutionDate = data.lastExecutionDate;
-
-        if (data.extensionExecuted && lastExecutionDate === today) {
-            console.log("Extension has already been executed today. Skipping...");
-            return; // Exit the content script if extension has already been executed today
-        }
+      
 
         if (message.action === "startFollow" && startFollowEnabled && !maxAttemptsReached) {
 
-            alert('You have reached the maximum number of attempts for today. Please try again tomorrow.');
-
+            
             // Function to scroll inside the modal
             function scrollInsideModal() {
                 const modal = document.querySelector('.artdeco-modal__content');
@@ -38,9 +29,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                             if (!maxAttemptsReached && startFollowEnabled) { // Check if maximum attempts reached and if startFollow is enabled
                                 count++;
                                 if (count === 40) {
-                                    maxAttemptsReached = true; // Set flag to true when maximum attempts reached
-                                    alert('You have reached the maximum number of attempts. Please try again later.');
-                                    return; // Exit the function when maximum attempts reached
+                                    maxAttemptsReached = true; 
+                                    alert('You have reached the maximum number of attempts.Better to stop Now.');
+                                    return;
                                 }
                                 button.click();
                             }
@@ -49,10 +40,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 }
             }
 
-            // Start scroll interval
+       
             setInterval(scrollInsideModal, 27000);
 
-            // Start click timeout
+       
             setTimeout(function() {
                 clickButtons();
             }, 3000);
